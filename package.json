@@ -1,0 +1,23 @@
+{
+	"name": "wantsit",
+	"version": "1.0.0",
+	"description": "Super lightweight dependency injection",
+	"main": "index.js",
+	"scripts": {
+		"test": "istanbul cover nodeunit test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/achingbrain/wantsit.git"
+	},
+	"dependencies": {
+		"winston": "~0.7",
+		"underscore.string": "~2.3"
+	},
+	"devDependencies": {
+		"nodeunit": "~0.8",
+		"jsmockito": "~1.0",
+		"jshamcrest": "~0.7",
+		"istanbul": "~0.1"
+	}
+}
