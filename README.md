@@ -132,7 +132,7 @@ var foo = container.create(Foo);
 
 foo.doSomething(); // prints "hello!"
 
-// register a different bar
+// overwrite bar
 container.register("bar", function() {
 	console.log("world");
 });
@@ -148,6 +148,8 @@ foo.doSomething(); // prints "world!"
 
 `Container.autowire(component)` Autowire a thing
 
-`Container.create(constructor, arg1, arg2...)` Create and autowire a thing. `arg1, arg2...` are passed to `constructor`
+`Container.create(constructor, arg1, arg2...)` Create and autowire a thing
 
-`Container.createAndRegister(name, constructor, arg1, arg2...)` Create, autowire and register a thing. `arg1, arg2...` are passed to `constructor`
+`Container.createAndRegister(name, constructor, arg1, arg2...)` Create, autowire and register a thing
+
+In `create` and `createAndRegister` above, `arg1, arg2...` are passed to `constructor`
