@@ -43,6 +43,8 @@ Not only is there less boilerplate, `MyClass` has been freed from configuring an
  * Control resources centrally (were I to have two instances of `MyClass`, the can now share a db connection)
  * Introduce new functionality without changing `MyClass`. Want a connection pool? No problem, want to wrap `MadeUpDb`, [AOP](http://en.wikipedia.org/wiki/Aspect-oriented_programming) style? Done.  Swap `MadeUpDb` for `NewHotDB`? Easy.
 
+Amazing, right?
+
 ## I'm sold, show me an example
 
 ```javascript
