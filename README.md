@@ -89,7 +89,7 @@ For people with an aversion to the `new` keyword, `container.create` will instan
 
 var foo = container.create(Foo);
 
-foo.doSomething(); // prints "hello!"
+...
 ```
 
 Constructor arguments are also supported:
@@ -100,9 +100,9 @@ var Foo = function(message) {
 	console.log(message);
 }
 
-var foo = container.create(Foo, "world!");
+var foo = container.create(Foo, "Hello world!");
 
-foo.doSomething(); // prints "world!"
+...
 ```
 
 ## Magic methods
