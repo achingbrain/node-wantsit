@@ -38,10 +38,10 @@ var MyClass = function() {
 
 Not only is there less boilerplate, `MyClass` has been freed from configuring and acquiring a data source (a beard might call this [Inversion of Control](http://en.wikipedia.org/wiki/Inversion_of_control)) which lets me:
 
- a. Concentrate on the interesting bits of `MyClass` (e.g. `getTheThings()`)
- b. Easily mock behaviour in tests by setting `_db`
- c. Control resources centrally (were I to have two instances of `MyClass`, the can now share a db connection)
- d. Introduce new functionality without changing `MyClass`. Want a connection pool? No problem, want to wrap `MadeUpDb`, [AOP](http://en.wikipedia.org/wiki/Aspect-oriented_programming) style? Done.  Swap `MadeUpDb` for `NewHotDB`? Easy.
+ * Concentrate on the interesting bits of `MyClass` (e.g. `getTheThings()`)
+ * Easily mock behaviour in tests by setting `_db`
+ * Control resources centrally (were I to have two instances of `MyClass`, the can now share a db connection)
+ * Introduce new functionality without changing `MyClass`. Want a connection pool? No problem, want to wrap `MadeUpDb`, [AOP](http://en.wikipedia.org/wiki/Aspect-oriented_programming) style? Done.  Swap `MadeUpDb` for `NewHotDB`? Easy.
 
 ## I'm sold, show me an example
 
