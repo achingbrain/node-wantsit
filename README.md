@@ -92,6 +92,19 @@ var foo = container.create(Foo);
 foo.doSomething(); // prints "hello!"
 ```
 
+Constructor arguments are also supported:
+
+```javascript
+
+var Foo = function(message) {
+	console.log(message);
+}
+
+var foo = container.create(Foo, "world!");
+
+foo.doSomething(); // prints "world!"
+```
+
 ## Magic methods
 
 There are optional methods you can implement to be told when things happen.
