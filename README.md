@@ -81,17 +81,18 @@ container.autowire(foo);
 foo.doSomething(); // prints "hello!"
 ```
 
-# Lifecycle management
+## Lifecycle management
+
+For people with an aversion to the `new` keyword, `container.create` will instantiate your object, autowire it and return it.
 
 ```javascript
 
 var foo = container.create(Foo);
 
 foo.doSomething(); // prints "hello!"
-
 ```
 
-# Magic methods
+## Magic methods
 
 There are optional methods you can implement to be told when things happen.
 
@@ -106,8 +107,40 @@ Foo.prototype.afterPropertiesSet = function() {
 
 };
 ```
+## Dynamic getters
 
-# Full API
+Look-ups occur at runtime, so you can switch out application behaviour without a restart:
+
+```javascript
+
+// create a bar
+container.register("bar", function() {
+	console.log("hello");
+});
+
+// this is our autowired component
+var Foo = function() {
+	this._bar = Autowire;
+};
+
+Foo.prototype.doSomething = function() {
+	this._bar();
+}
+
+// create and autowire it
+var foo = container.create(Foo);
+
+foo.doSomething(); // prints "hello!"
+
+// register a different bar
+container.register("bar", function() {
+	console.log("world");
+});
+
+foo.doSomething(); // prints "world!"
+```
+
+## Full API
 
 `Container.register(name, component)` Store a thing
 
@@ -115,6 +148,6 @@ Foo.prototype.afterPropertiesSet = function() {
 
 `Container.autowire(component)` Autowire a thing
 
-`Container.create(constructor, arg1, arg2...)` Create and autowire a thing
+`Container.create(constructor, arg1, arg2...)` Create and autowire a thing. `arg1, arg2...` are passed to `constructor`
 
-`Container.createAndRegister(name, constructor, arg1, arg2...)` Create, autowire and register a thing
+`Container.createAndRegister(name, constructor, arg1, arg2...)` Create, autowire and register a thing. `arg1, arg2...` are passed to `constructor`
