@@ -1,4 +1,4 @@
-# wantsit
+# wantsit [![Dependency Status](https://david-dm.org/achingbrain/node-wantsit.png)](https://david-dm.org/achingbrain/node-wantsit) [![devDependency Status](https://david-dm.org/achingbrain/node-wantsit/dev-status.png)](https://david-dm.org/achingbrain/node-wantsit#info=devDependencies)
 
 Super lightweight dependency resolution, autowiring and lifecycle management.
 
