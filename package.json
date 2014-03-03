@@ -4,21 +4,25 @@
 	"description": "Super lightweight dependency injection",
 	"main": "index.js",
 	"scripts": {
-		"test": "istanbul cover nodeunit test"
+		"test": "istanbul cover nodeunit test",
+		"coveralls": "istanbul cover nodeunit test/unit && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/achingbrain/node-wantsit.git"
 	},
 	"dependencies": {
-		"winston": "~0.7",
-		"underscore.string": "~2.3",
-		"check-types": "~1.1"
+		"winston": "^0.7",
+		"underscore.string": "^2.3",
+		"check-types": "^1.1",
+		"toarray": "^0.0"
 	},
 	"devDependencies": {
-		"nodeunit": "~0.8",
-		"jsmockito": "~1.0",
-		"jshamcrest": "~0.7",
-		"istanbul": "~0.1"
+		"nodeunit": "^0.8",
+		"jsmockito": "^1.0",
+		"jshamcrest": "^0.7",
+		"istanbul": "^0.2",
+		"should": "^3.1",
+		"coveralls": "^2.8"
 	}
 }

@@ -153,6 +153,30 @@ container.register("bar", function() {
 foo.doSomething(); // prints "world!"
 ```
 
+## I want to register all of the things!
+
+```
+container.createAndRegisterAll(__dirname + "/lib");
+```
+
+To use this, all your components must be in or under the lib directory.  Anything that ends in `.js` will be newed up and autowired.
+
+No constructor arguments are supported, it's `Autowire` all the way down.
+
+### Woah, not literally all of the things
+
+Ok, specify a regex as the second argument - anything that matches it will be excluded
+
+```
+container.createAndRegisterAll(__dirname + "/lib", /excludeme\.js/);
+```
+
+Regex?  Great, now I've got two problems.  Why stop there?  Pass in an array of regexes:
+
+```
+container.createAndRegisterAll(__dirname + "/lib", [/pattern1/, /pattern2/]);
+```
+
 ## Full API
 
 `Container.register(name, component)` Store a thing
@@ -164,5 +188,7 @@ foo.doSomething(); // prints "world!"
 `Container.create(constructor, arg1, arg2...)` Create and autowire a thing
 
 `Container.createAndRegister(name, constructor, arg1, arg2...)` Create, autowire and register a thing
+
+`Container.createAndRegisterAll(path, excludes)` Create, autowire and register anything under `path` that doesn't match `excludes`
 
 In `create` and `createAndRegister` above, `arg1, arg2...` are passed to `constructor`
