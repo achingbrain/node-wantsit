@@ -1,4 +1,6 @@
-# wantsit [![Dependency Status](https://david-dm.org/achingbrain/node-wantsit.png)](https://david-dm.org/achingbrain/node-wantsit) [![devDependency Status](https://david-dm.org/achingbrain/node-wantsit/dev-status.png)](https://david-dm.org/achingbrain/node-wantsit#info=devDependencies)
+# wantsit
+
+[![Dependency Status](https://david-dm.org/achingbrain/node-wantsit.svg?theme=shields.io)](https://david-dm.org/achingbrain/node-wantsit) [![devDependency Status](https://david-dm.org/achingbrain/node-wantsit/dev-status.svg?theme=shields.io)](https://david-dm.org/achingbrain/node-wantsit#info=devDependencies) [![Build Status](https://img.shields.io/travis/achingbrain/node-wantsit/master.svg)](https://travis-ci.org/achingbrain/node-wantsit) [![Coverage Status](http://img.shields.io/coveralls/achingbrain/node-wantsit/master.svg)](https://coveralls.io/r/achingbrain/node-wantsit)
 
 Super lightweight dependency resolution, autowiring and lifecycle management.
 
