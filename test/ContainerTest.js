@@ -166,5 +166,15 @@ module.exports["Container"] = {
 		}
 
 		test.done();
+	},
+
+	"Should register a function when it's declared in a file that starts with lower case": function( test ) {
+		var container = new Container();
+		container.createAndRegisterAll(__dirname + "/create-and-autowire-all-test");
+
+		var qux = container.find("qux");
+		qux().should.equal.true;
+
+		test.done();
 	}
 };

@@ -157,7 +157,7 @@ foo.doSomething(); // prints "world!"
 
 ## I want to register all of the things!
 
-```
+```javascript
 container.createAndRegisterAll(__dirname + "/lib");
 ```
 
@@ -169,14 +169,50 @@ No constructor arguments are supported, it's `Autowire` all the way down.
 
 Ok, specify a regex as the second argument - anything that matches it will be excluded
 
-```
+```javascript
 container.createAndRegisterAll(__dirname + "/lib", /excludeme\.js/);
 ```
 
 Regex?  Great, now I've got two problems.  Why stop there?  Pass in an array of regexes:
 
-```
+```javascript
 container.createAndRegisterAll(__dirname + "/lib", [/pattern1/, /pattern2/]);
+```
+
+### I want to have functions automatically registered
+
+Declare them in a file with a lowercase letter.  Eg:
+
+```javascript
+// myFunc.js
+module.exports = function() {
+	return true;
+}
+```
+
+..as opposed to a class which should be in a file that starts with a capital letter:
+
+```javascript
+// MyClass.js
+var MyClass = function() {};
+
+MyClass.prototype.foo = function() {
+	return true
+}
+
+module.exports = MyClass;
+```
+
+```javascript
+container.createAndRegisterAll(__dirname + "/lib");
+
+// find and invoke our function
+var foo = container.find("myFunc);
+foo();
+
+// find and invoke a method on our singleton
+var myClass = container.find("myClass");
+myClass.foo();
 ```
 
 ## Full API
