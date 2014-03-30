@@ -217,16 +217,27 @@ myClass.foo();
 
 ## Full API
 
-`Container.register(name, component)` Store a thing
+### Constructor
 
-`Container.find(name)` Retrieve a thing - can by by name (e.g. `"foo"`) or by type (e.g. `Foo`)
+```
+var container = new Container({
+	// an optional logger (e.g. Winston). Defaults to the console.
+	logger: {}
+});
+```
 
-`Container.autowire(component)` Autowire a thing
+### Methods
 
-`Container.create(constructor, arg1, arg2...)` Create and autowire a thing
+`container.register(name, component)` Store a thing
 
-`Container.createAndRegister(name, constructor, arg1, arg2...)` Create, autowire and register a thing
+`container.find(name)` Retrieve a thing - can by by name (e.g. `"foo"`) or by type (e.g. `Foo`)
 
-`Container.createAndRegisterAll(path, excludes)` Create, autowire and register anything under `path` that doesn't match `excludes`
+`container.autowire(component)` Autowire a thing
+
+`container.create(constructor, arg1, arg2...)` Create and autowire a thing
+
+`container.createAndRegister(name, constructor, arg1, arg2...)` Create, autowire and register a thing
+
+`container.createAndRegisterAll(path, excludes)` Create, autowire and register anything under `path` that doesn't match `excludes`
 
 In `create` and `createAndRegister` above, `arg1, arg2...` are passed to `constructor`

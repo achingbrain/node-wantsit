@@ -1,6 +1,6 @@
 {
   "name": "wantsit",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Super lightweight dependency injection",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,6 @@
     "url": "git://github.com/achingbrain/node-wantsit.git"
   },
   "dependencies": {
-    "winston": "^0.7",
     "underscore.string": "^2.3",
     "check-types": "^1.1",
     "toarray": "^0.0"
