@@ -13,14 +13,14 @@ Using dependency injection decouples your code and makes it more maintainable, r
 Imagine I have some code like this:
 
 ```javascript
-var MadeUpDb = require("madeupdb");
+var MadeUpDb = require('madeupdb');
 
 var MyClass = function() {
-	this._db = new Madeupdb("localhost", "database_name", "username", "password");
+  this._db = new Madeupdb('localhost', 'database_name', 'username', 'password');
 };
 
 MyClass.prototype.getTheThings() {
-	return this._db.query("SELECT foo FROM bar");
+  return this._db.query('SELECT foo FROM bar');
 }
 ```
 
@@ -29,10 +29,10 @@ MyClass.prototype.getTheThings() {
 If instead I did this:
 
 ```javascript
-var Autowire = require("wantsit").Autowire;
+var Autowire = require('wantsit').Autowire;
 
 var MyClass = function() {
-	this._db = Autowire;
+  this._db = Autowire;
 };
 
 ...
@@ -50,16 +50,16 @@ Amazing, right?
 ## I'm sold, show me an example
 
 ```javascript
-var Autowire = require("wantsit").Autowire,
-	Container = require("wantsit").Container;
+var Autowire = require('wantsit').Autowire,
+  Container = require('wantsit').Container;
 
 var Foo = function() {
-	// works with this._bar or this.bar
-	this._bar = Autowire;
+  // works with this._bar or this.bar
+  this._bar = Autowire;
 };
 
 Foo.prototype.doSomething() {
-	this._bar.sayHello();
+ this._bar.sayHello();
 }
 
 ...
@@ -69,18 +69,18 @@ var Bar = function() {
 }
 
 Bar.prototype.sayHello() {
-	console.log("hello!");
+  console.log('hello!');
 }
 
 ...
 
 var container = new Container();
-container.register("bar", new Bar());
+container.register('bar', new Bar());
 
 var foo = new Foo();
 container.autowire(foo);
 
-foo.doSomething(); // prints "hello!"
+foo.doSomething(); // prints 'hello!'
 ```
 
 ## Lifecycle management
@@ -99,10 +99,10 @@ Constructor arguments are also supported:
 ```javascript
 
 var Foo = function(message) {
-	console.log(message);
+  console.log(message);
 }
 
-var foo = container.create(Foo, "Hello world!");
+var foo = container.create(Foo, 'Hello world!');
 
 ...
 ```
@@ -129,36 +129,36 @@ Look-ups occur at runtime, so you can switch out application behaviour without a
 ```javascript
 
 // create a bar
-container.register("bar", function() {
-	console.log("hello");
+container.register('bar', function() {
+  console.log('hello');
 });
 
 // this is our autowired component
 var Foo = function() {
-	this._bar = Autowire;
+  this._bar = Autowire;
 };
 
 Foo.prototype.doSomething = function() {
-	this._bar();
+  this._bar();
 }
 
 // create and autowire it
 var foo = container.create(Foo);
 
-foo.doSomething(); // prints "hello!"
+foo.doSomething(); // prints 'hello!'
 
 // overwrite bar
-container.register("bar", function() {
-	console.log("world");
+container.register('bar', function() {
+  console.log('world');
 });
 
-foo.doSomething(); // prints "world!"
+foo.doSomething(); // prints 'world!'
 ```
 
 ## I want to register all of the things!
 
 ```javascript
-container.createAndRegisterAll(__dirname + "/lib");
+container.createAndRegisterAll(__dirname + '/lib');
 ```
 
 To use this, all your components must be in or under the lib directory.  Anything that ends in `.js` will be newed up and autowired.
@@ -170,13 +170,13 @@ No constructor arguments are supported, it's `Autowire` all the way down.
 Ok, specify a regex as the second argument - anything that matches it will be excluded
 
 ```javascript
-container.createAndRegisterAll(__dirname + "/lib", /excludeme\.js/);
+container.createAndRegisterAll(__dirname + '/lib', /excludeme\.js/);
 ```
 
 Regex?  Great, now I've got two problems.  Why stop there?  Pass in an array of regexes:
 
 ```javascript
-container.createAndRegisterAll(__dirname + "/lib", [/pattern1/, /pattern2/]);
+container.createAndRegisterAll(__dirname + '/lib', [/pattern1/, /pattern2/]);
 ```
 
 ### I want to have functions automatically registered
@@ -186,7 +186,7 @@ Declare them in a file with a lowercase letter.  Eg:
 ```javascript
 // myFunc.js
 module.exports = function() {
-	return true;
+  return true;
 }
 ```
 
@@ -197,22 +197,47 @@ module.exports = function() {
 var MyClass = function() {};
 
 MyClass.prototype.foo = function() {
-	return true
+  return true
 }
 
 module.exports = MyClass;
 ```
 
 ```javascript
-container.createAndRegisterAll(__dirname + "/lib");
+container.createAndRegisterAll(__dirname + '/lib');
 
 // find and invoke our function
-var foo = container.find("myFunc);
+var foo = container.find('myFunc);
 foo();
 
 // find and invoke a method on our singleton
-var myClass = container.find("myClass");
+var myClass = container.find('myClass');
 myClass.foo();
+```
+
+### I want to register a function on a class
+
+No problem, just use the `createAndRegisterFunction` method.  The first argument is the name to register the
+function under, the second is the name of the method on the class, the third is the class constructor. Any
+subsequent arguments will be passed to the constructor.
+
+```javascript
+// MyClass.js
+var MyClass = function() {};
+
+MyClass.prototype.foo = function() {
+  return true
+}
+
+module.exports = MyClass;
+```
+
+```javascript
+container.createAndRegisterFunction('fooFunc', 'foo', MyClass);
+
+// find and invoke our function
+var foo = container.find('fooFunc');
+foo();
 ```
 
 ## Full API
@@ -221,8 +246,8 @@ myClass.foo();
 
 ```
 var container = new Container({
-	// an optional logger (e.g. Winston). Defaults to the console.
-	logger: {}
+  // an optional logger (e.g. Winston). Defaults to the console.
+  logger: {}
 });
 ```
 
@@ -230,7 +255,7 @@ var container = new Container({
 
 `container.register(name, component)` Store a thing
 
-`container.find(name)` Retrieve a thing - can by by name (e.g. `"foo"`) or by type (e.g. `Foo`)
+`container.find(name)` Retrieve a thing - can by by name (e.g. `'foo'`) or by type (e.g. `Foo`)
 
 `container.autowire(component)` Autowire a thing
 
