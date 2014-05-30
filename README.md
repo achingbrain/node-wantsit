@@ -240,6 +240,47 @@ var foo = container.find('fooFunc');
 foo();
 ```
 
+### I want an optional dependency
+
+Pass the `optional` option to Autowired:
+
+```javascript
+// MyClass.js
+var MyClass = function() {
+  this._foo = Autowired({optional: true})
+};
+
+MyClass.prototype.doSomething = function() {
+  // we are now responsible for making sure this._foo is not null before using it
+  if(this._foo) {
+    // ...
+  }
+}
+```
+
+### I don't want to use the property name to resolve my dependency
+
+Pass the `name` option to Autowired:
+
+```javascript
+// index.js
+container.register('bar', {
+  baz: function() {
+    return 'hello!'
+  }
+});
+
+// MyClass.js
+var MyClass = function() {
+  this._foo = Autowired({name: 'bar'})
+};
+
+MyClass.prototype.doSomething = function() {
+  // this._foo is 'bar' from the container
+  this._foo.baz();
+}
+```
+
 ## Full API
 
 ### Constructor
