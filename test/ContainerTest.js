@@ -214,5 +214,23 @@ module.exports["Container"] = {
     foo.bar.hello().should.equal('world');
 
     test.done();
+  },
+
+  "Should make autowired properties non-enumerable": function( test ) {
+    var Foo = function() {
+      this.bar = Autowire;
+    };
+    var Bar = function() {
+
+    };
+
+    var container = new Container();
+    container.createAndRegister('foo', Foo);
+    container.createAndRegister('bar', Bar);
+
+    var foo = container.find("foo");
+    Object.keys(foo).should.not.containEql('bar');
+
+    test.done();
   }
 };
