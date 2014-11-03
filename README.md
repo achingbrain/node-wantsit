@@ -281,6 +281,37 @@ MyClass.prototype.doSomething = function() {
 }
 ```
 
+## Object Factories
+
+You can also automate the creation and autowiring of classes
+
+```javascript
+var ObjectFactory = require('wantsit').ObjectFactory
+
+var Foo = function(arg1, arg2) {
+  this._arg1 = arg1
+  this._arg2 = arg2
+
+  // Autowired fields will be populated automatically
+  this._dep = Autowired
+}
+
+// place an instance of the factory in the container
+container.createAndRegister('fooFactory', ObjectFactory, Foo);
+
+// MyClass.js
+var MyClass = function() {
+  this._fooFactory = Autowired
+};
+
+MyClass.prototype.doSomething = function() {
+  var foo = this._fooFactory.create('one', 'two')
+
+  foo._arg1 // 'one'
+  foo._arg2 // 'two'
+}
+```
+
 ## Full API
 
 ### Constructor

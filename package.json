@@ -17,11 +17,11 @@
     "toarray": "^0.0"
   },
   "devDependencies": {
-    "nodeunit": "^0.8",
+    "nodeunit": "^0.9",
     "jsmockito": "^1.0",
     "jshamcrest": "^0.7",
-    "istanbul": "^0.2",
-    "should": "^3.1",
+    "istanbul": "^0.3",
+    "should": "^4.0",
     "coveralls": "^2.8"
   }
 }
