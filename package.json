@@ -1,6 +1,6 @@
 {
   "name": "wantsit",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "Super lightweight dependency injection",
   "main": "index.js",
   "scripts": {
