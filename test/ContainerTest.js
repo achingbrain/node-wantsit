@@ -232,5 +232,66 @@ module.exports["Container"] = {
     Object.keys(foo).should.not.containEql('bar');
 
     test.done();
+  },
+
+  "Should call containerAware method after registering": function( test ) {
+    var container = new Container();
+
+    var Foo = function() {
+
+    };
+    Foo.prototype.containerAware = function(cont) {
+      container.should.equal(cont)
+
+      test.done();
+    };
+
+    container.createAndRegister('foo', Foo);
+  },
+
+  "Should call afterPropertiesSet method after autowiring": function( test ) {
+    var Foo = function() {
+      this._bar = Autowire;
+    };
+    Foo.prototype.afterPropertiesSet = function() {
+      this._bar.should.equal(5)
+
+      test.done();
+    };
+
+    var container = new Container();
+    container.createAndRegister('foo', Foo);
+    container.register('bar', 5);
+  },
+
+  "Should override logger": function( test ) {
+    var Foo = function() {
+
+    };
+
+    var logger = {
+      info: function() {},
+      warn: function() {},
+      error: function() {},
+      debug: function() {}
+    }
+
+    var container = new Container();
+    container.setLogger(logger);
+
+    container.createAndRegister('foo', Foo);
+
+    test.done();
+  },
+
+  "Should object when trying to register an invalid component": function( test ) {
+    var container = new Container();
+
+    try {
+      container.register('foo');
+      test.fail();
+    } catch(e) {
+      test.done();
+    }
   }
 };

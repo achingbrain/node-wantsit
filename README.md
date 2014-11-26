@@ -240,7 +240,7 @@ var foo = container.find('fooFunc');
 foo();
 ```
 
-### I want an optional dependency
+### My dependency is optional
 
 Pass the `optional` option to Autowired:
 
@@ -338,3 +338,5 @@ var container = new Container({
 `container.createAndRegisterAll(path, excludes)` Create, autowire and register anything under `path` that doesn't match `excludes`
 
 In `create` and `createAndRegister` above, `arg1, arg2...` are passed to `constructor`
+
+`container.setLogger(logger)` Override the default logging implementation - the passed object must have `info`, `warn`, `error` and `debug` methods.
