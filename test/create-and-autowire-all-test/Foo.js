@@ -1,6 +1,6 @@
 
 var Meh = function() {
 
-};
+}
 
-module.exports = Meh;
+module.exports = Meh
