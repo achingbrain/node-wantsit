@@ -74,18 +74,20 @@ describe('Container', function() {
     expect(container.find.bind(container, 'baz')).to.throw()
   })
 
-  it('should error when failing to get a thing', function(done) {
+  it('should throw when failing to get a thing', function(done) {
     var Foo = function() {}
 
     var container = new Container()
     container.createAndRegister('bar', Foo)
-    container.on('error', function(error) {
+
+    try {
+      container.find('baz')
+    } catch(error) {
       expect(error.message).to.contain('No component with name baz has been registered')
 
       done()
-    })
+    }
 
-    container.find('baz')
   })
 
   it('should not get a thing by type', function() {
