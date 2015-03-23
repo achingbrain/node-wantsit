@@ -403,6 +403,8 @@ container.createAndRegister('foo', Foo, function(error) {
 
 The `ready` event will be emitted once all currently registered components have initialised.  If you subsequently register new components, this event will fire again.
 
+The container will be passed as the first argument to listeners.
+
 ## Full API
 
 ### Constructor
