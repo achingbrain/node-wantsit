@@ -12,17 +12,17 @@
     "url": "git://github.com/achingbrain/node-wantsit.git"
   },
   "dependencies": {
-    "underscore.string": "^2.3",
-    "check-types": "^2.0",
+    "async": "^0.9",
+    "check-types": "^3.1.1",
     "toarray": "^0.0",
-    "async": "0.9"
+    "underscore.string": "^3.0.3"
   },
   "devDependencies": {
-    "chai": "^1.0",
+    "chai": "^2.1.2",
     "coveralls": "^2.8",
     "istanbul": "^0.3.0",
     "mocha": "^2.0",
-    "pre-commit": "^0.0",
+    "pre-commit": "^1.0.6",
     "proxyquire": "^1.0",
     "sinon": "^1.8",
     "testsuite": "^1.0"

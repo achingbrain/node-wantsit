@@ -58,7 +58,7 @@ describe('Container', function() {
 
     var container = new Container()
     container.createAndRegister('bar', Foo)
-    container.once('ready', function() {
+    container.once('ready', function(container) {
       expect(container.find(Foo)).to.exist
 
       done()
@@ -104,7 +104,7 @@ describe('Container', function() {
   it('should create and autowire all', function(done) {
     var container = new Container()
     container.createAndRegisterAll(__dirname + '/create-and-autowire-all-test')
-    container.once('ready', function() {
+    container.once('ready', function(container) {
       expect(container.find('foo')).to.exist
       expect(container.find('bar')).to.exist
 
