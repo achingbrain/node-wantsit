@@ -406,29 +406,6 @@ describe('Container', function() {
     container.createAndRegister('component', Component)
   })
 
-  it('should object when dependencies do not exist', function(done) {
-    var Dep = function() {
-    }
-    var Component = function() {
-      this._dep1 = Autowire
-      this._dep2 = Autowire
-    }
-
-    var d = false
-
-    var container = new Container()
-    container.createAndRegister('dep1', Dep)
-    container.createAndRegister('component', Component)
-    container.on('error', function(error) {
-      expect(error.message).to.contain('No component with name dep2')
-
-      if(!d) {
-        d = true
-        done()
-      }
-    })
-  })
-
   it('should error on circular dependencies', function(done) {
     var d = false
     var Dep1 = function() {
