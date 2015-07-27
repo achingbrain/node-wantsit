@@ -1,6 +1,3 @@
-
-var Meh = function() {
-
-}
+var Meh = function () {}
 
 module.exports = Meh

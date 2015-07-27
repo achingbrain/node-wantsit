@@ -4,39 +4,37 @@
   "description": "Super lightweight dependency injection",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover _mocha test",
-    "coveralls": "istanbul cover _mocha test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "test": "./node_modules/mocha/bin/mocha",
+    "test:coverage": "./node_modules/istanbul/lib/cli.js --include-all-sources cover ./node_modules/mocha/bin/_mocha",
+    "coveralls": "istanbul cover _mocha test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "lint": "standard"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/achingbrain/node-wantsit.git"
   },
   "dependencies": {
-    "async": "^0.9",
+    "async": "^1.4.0",
     "check-types": "^3.1.1",
     "toarray": "^0.0",
     "underscore.string": "^3.0.3"
   },
   "devDependencies": {
-    "chai": "^2.1.2",
+    "chai": "^3.2.0",
     "coveralls": "^2.8",
     "istanbul": "^0.3.0",
     "mocha": "^2.0",
     "pre-commit": "^1.0.6",
     "proxyquire": "^1.0",
     "sinon": "^1.8",
+    "standard": "^4.5.4",
     "testsuite": "^1.0"
   },
-  "jshintConfig": {
-    "asi": true,
-    "browser": true,
-    "curly": false,
-    "expr": true,
-    "indent": 2,
-    "loopfunc": true,
-    "node": true,
-    "trailing": true,
-    "undef": true,
-    "white": true
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "standard": {
+    "global": [ "describe", "it", "expect" ]
   }
 }

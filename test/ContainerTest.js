@@ -1,17 +1,17 @@
-var Container = require('../lib/Container'),
-  Autowire = require('../lib/Autowire'),
-  expect = require('chai').expect
+var Container = require('../lib/Container')
+var Autowire = require('../lib/Autowire')
+var expect = require('chai').expect
 
-describe('Container', function() {
-  it('should register a thing', function() {
+describe('Container', function () {
+  it('should register a thing', function () {
     var container = new Container()
     container.register('bar', {})
 
     expect(container.find('bar')).to.exist
   })
 
-  it('should autowire a field', function() {
-    var Foo = function() {
+  it('should autowire a field', function () {
+    var Foo = function () {
       this.bar = Autowire
     }
 
@@ -26,8 +26,8 @@ describe('Container', function() {
     expect(foo.bar).to.equal(bar)
   })
 
-  it('should always get latest component', function() {
-    var Foo = function() {
+  it('should always get latest component', function () {
+    var Foo = function () {
       this.bar = Autowire
     }
 
@@ -53,20 +53,20 @@ describe('Container', function() {
     expect(foo.bar).to.equal(newBar)
   })
 
-  it('should get a thing by type', function(done) {
-    var Foo = function() {}
+  it('should get a thing by type', function (done) {
+    var Foo = function () {}
 
     var container = new Container()
     container.createAndRegister('bar', Foo)
-    container.once('ready', function(container) {
+    container.once('ready', function (container) {
       expect(container.find(Foo)).to.exist
 
       done()
     })
   })
 
-  it('should not get a thing', function() {
-    var Foo = function() {}
+  it('should not get a thing', function () {
+    var Foo = function () {}
 
     var container = new Container()
     container.createAndRegister('bar', Foo)
@@ -74,12 +74,12 @@ describe('Container', function() {
     expect(container.find.bind(container, 'baz')).to.throw()
   })
 
-  it('should error when failing to get a thing', function(done) {
-    var Foo = function() {}
+  it('should error when failing to get a thing', function (done) {
+    var Foo = function () {}
 
     var container = new Container()
     container.createAndRegister('bar', Foo)
-    container.on('error', function(error) {
+    container.on('error', function (error) {
       expect(error.message).to.contain('No component with name baz has been registered')
 
       done()
@@ -88,12 +88,12 @@ describe('Container', function() {
     container.find('baz')
   })
 
-  it('should not get a thing by type', function() {
-    var Bar = function() {
+  it('should not get a thing by type', function () {
+    var Bar = function () {
       this._bar = 'baz'
     }
 
-    var Foo = function() {}
+    var Foo = function () {}
 
     var container = new Container()
     container.createAndRegister('bar', Bar)
@@ -101,10 +101,10 @@ describe('Container', function() {
     expect(container.find.bind(container, Foo)).to.throw()
   })
 
-  it('should create and autowire all', function(done) {
+  it('should create and autowire all', function (done) {
     var container = new Container()
     container.createAndRegisterAll(__dirname + '/create-and-autowire-all-test')
-    container.once('ready', function(container) {
+    container.once('ready', function (container) {
       expect(container.find('foo')).to.exist
       expect(container.find('bar')).to.exist
 
@@ -114,10 +114,10 @@ describe('Container', function() {
     })
   })
 
-  it('should create and autowire all apart from one thing', function(done) {
+  it('should create and autowire all apart from one thing', function (done) {
     var container = new Container()
     container.createAndRegisterAll(__dirname + '/create-and-autowire-all-test', /Bar\.js/)
-    container.once('ready', function() {
+    container.once('ready', function () {
       expect(container.find('foo')).to.exist
 
       expect(container.find.bind(container, 'bar')).to.throw()
@@ -126,10 +126,10 @@ describe('Container', function() {
     })
   })
 
-  it('should create and autowire all apart from more than one thing', function(done) {
+  it('should create and autowire all apart from more than one thing', function (done) {
     var container = new Container()
     container.createAndRegisterAll(__dirname + '/create-and-autowire-all-test', [/Bar\.js/, /Foo\.js/])
-    container.once('ready', function() {
+    container.once('ready', function () {
       expect(container.find.bind(container, 'foo')).to.throw()
       expect(container.find.bind(container, 'bar')).to.throw()
 
@@ -137,10 +137,10 @@ describe('Container', function() {
     })
   })
 
-  it('should register a function when it\'s declared in a file that starts with lower case', function(done) {
+  it("should register a function when it's declared in a file that starts with lower case", function (done) {
     var container = new Container()
     container.createAndRegisterAll(__dirname + '/create-and-autowire-all-test')
-    container.once('ready', function() {
+    container.once('ready', function () {
       var qux = container.find('qux')
       expect(qux()).to.be.true
 
@@ -148,17 +148,17 @@ describe('Container', function() {
     })
   })
 
-  it('should register a function on a method', function(done) {
-    var Foo = function() {
+  it('should register a function on a method', function (done) {
+    var Foo = function () {
       this._bar = 'baz'
     }
-    Foo.prototype.qux = function() {
+    Foo.prototype.qux = function () {
       return this._bar
     }
 
     var container = new Container()
     container.createAndRegisterFunction('quux', 'qux', Foo)
-    container.once('ready', function() {
+    container.once('ready', function () {
       var quux = container.find('quux')
       expect(quux()).to.equal('baz')
 
@@ -166,21 +166,19 @@ describe('Container', function() {
     })
   })
 
-  it('should allow overriding name when autowiring', function(done) {
-    var Foo = function() {
+  it('should allow overriding name when autowiring', function (done) {
+    var Foo = function () {
       this.bar = Autowire({name: 'baz'})
     }
-    var Baz = function() {
-
-    }
-    Baz.prototype.hello = function() {
+    var Baz = function () {}
+    Baz.prototype.hello = function () {
       return 'world'
     }
 
     var container = new Container()
     container.createAndRegister('foo', Foo)
     container.createAndRegister('baz', Baz)
-    container.once('ready', function() {
+    container.once('ready', function () {
       var foo = container.find('foo')
       expect(foo.bar.hello()).to.equal('world')
 
@@ -188,18 +186,16 @@ describe('Container', function() {
     })
   })
 
-  it('should make autowired properties non-enumerable', function(done) {
-    var Foo = function() {
+  it('should make autowired properties non-enumerable', function (done) {
+    var Foo = function () {
       this.bar = Autowire
     }
-    var Bar = function() {
-
-    }
+    var Bar = function () {}
 
     var container = new Container()
     container.createAndRegister('foo', Foo)
     container.createAndRegister('bar', Bar)
-    container.once('ready', function() {
+    container.once('ready', function () {
       var foo = container.find('foo')
       expect(Object.keys(foo)).to.not.contain('bar')
 
@@ -207,13 +203,11 @@ describe('Container', function() {
     })
   })
 
-  it('should call containerAware method after registering', function(done) {
+  it('should call containerAware method after registering', function (done) {
     var container = new Container()
 
-    var Foo = function() {
-
-    }
-    Foo.prototype.containerAware = function(cont) {
+    var Foo = function () {}
+    Foo.prototype.containerAware = function (cont) {
       expect(container).to.equal(cont)
 
       done()
@@ -222,11 +216,11 @@ describe('Container', function() {
     container.createAndRegister('foo', Foo)
   })
 
-  it('should call afterPropertiesSet method after autowiring', function(done) {
-    var Foo = function() {
+  it('should call afterPropertiesSet method after autowiring', function (done) {
+    var Foo = function () {
       this._bar = Autowire
     }
-    Foo.prototype.afterPropertiesSet = function() {
+    Foo.prototype.afterPropertiesSet = function () {
       expect(this._bar).to.equal(5)
 
       done()
@@ -237,16 +231,14 @@ describe('Container', function() {
     container.register('bar', 5)
   })
 
-  it('should override logger', function() {
-    var Foo = function() {
-
-    }
+  it('should override logger', function () {
+    var Foo = function () {}
 
     var logger = {
-      info: function() {},
-      warn: function() {},
-      error: function() {},
-      debug: function() {}
+      info: function () {},
+      warn: function () {},
+      error: function () {},
+      debug: function () {}
     }
 
     var container = new Container()
@@ -255,45 +247,44 @@ describe('Container', function() {
     container.createAndRegister('foo', Foo)
   })
 
-  it('should object when trying to register an invalid component', function() {
+  it('should object when trying to register an invalid component', function () {
     var container = new Container()
 
     expect(container.register.bind(container, 'foo')).to.throw()
   })
 
-  it('should create an object and pass it to a callback', function(done) {
-    var constructor = function() {}
+  it('should create an object and pass it to a callback', function (done) {
+    var constructor = function () {}
     var container = new Container()
 
-    container.create(constructor, function(error, instance) {
+    container.create(constructor, function (error, instance) {
+      expect(error).to.not.exist
       expect(instance).to.be.an.instanceof(constructor)
       done()
     })
   })
 
-  it('should pass an error to the callback when initialisation fails', function(done) {
-    var constructor = function() {}
-    constructor.prototype.afterPropertiesSet = function() {
+  it('should pass an error to the callback when initialisation fails', function (done) {
+    var constructor = function () {}
+    constructor.prototype.afterPropertiesSet = function () {
       throw new Error('panic!')
     }
 
     var container = new Container()
-    container.create(constructor, function(error) {
+    container.create(constructor, function (error) {
       expect(error.message).to.contain('panic!')
       done()
     })
   })
 
-  it('should emit error when initialisation fails and no callback is specified', function(done) {
-    var Dep = function() {
-
-    }
-    Dep.prototype.afterPropertiesSet = function() {
+  it('should emit error when initialisation fails and no callback is specified', function (done) {
+    var Dep = function () {}
+    Dep.prototype.afterPropertiesSet = function () {
       throw new Error('Urk!')
     }
 
     var container = new Container()
-    container.on('error', function(error) {
+    container.on('error', function (error) {
       expect(error).to.be.ok
       expect(error.message).to.equal('Urk!')
 
@@ -302,25 +293,25 @@ describe('Container', function() {
     container.create(Dep)
   })
 
-  it('should pass an error to the callback when constructor fails', function(done) {
-    var constructor = function() {
+  it('should pass an error to the callback when constructor fails', function (done) {
+    var constructor = function () {
       throw new Error('panic!')
     }
 
     var container = new Container()
-    container.create(constructor, function(error) {
+    container.create(constructor, function (error) {
       expect(error.message).to.contain('panic!')
       done()
     })
   })
 
-  it('should emit error when constructor fails and no callback is specified', function(done) {
-    var Dep = function() {
+  it('should emit error when constructor fails and no callback is specified', function (done) {
+    var Dep = function () {
       throw new Error('Urk!')
     }
 
     var container = new Container()
-    container.on('error', function(error) {
+    container.on('error', function (error) {
       expect(error).to.be.ok
       expect(error.message).to.equal('Urk!')
 
@@ -329,29 +320,27 @@ describe('Container', function() {
     container.create(Dep)
   })
 
-  it('should pass an error to the callback when containerAware fails', function(done) {
-    var constructor = function() {}
-    constructor.prototype.containerAware = function() {
+  it('should pass an error to the callback when containerAware fails', function (done) {
+    var constructor = function () {}
+    constructor.prototype.containerAware = function () {
       throw new Error('panic!')
     }
 
     var container = new Container()
-    container.create(constructor, function(error) {
+    container.create(constructor, function (error) {
       expect(error.message).to.contain('panic!')
       done()
     })
   })
 
-  it('should emit error when containerAware fails and no callback is specified', function(done) {
-    var Dep = function() {
-
-    }
-    Dep.prototype.containerAware = function() {
+  it('should emit error when containerAware fails and no callback is specified', function (done) {
+    var Dep = function () {}
+    Dep.prototype.containerAware = function () {
       throw new Error('Urk!')
     }
 
     var container = new Container()
-    container.on('error', function(error) {
+    container.on('error', function (error) {
       expect(error).to.be.ok
       expect(error.message).to.equal('Urk!')
 
@@ -360,41 +349,41 @@ describe('Container', function() {
     container.create(Dep)
   })
 
-  it('should defer callback until afterPropertiesSet callback is invoked', function(done) {
+  it('should defer callback until afterPropertiesSet callback is invoked', function (done) {
     var deferred = false
 
-    var constructor = function() {}
-    constructor.prototype.afterPropertiesSet = function(done) {
-      setTimeout(function() {
+    var constructor = function () {}
+    constructor.prototype.afterPropertiesSet = function (done) {
+      setTimeout(function () {
         deferred = true
         done()
       }, 500)
     }
     var container = new Container()
 
-    container.create(constructor, function() {
+    container.create(constructor, function () {
       expect(deferred).to.be.true
       done()
     })
   })
 
-  it('should wait for dependencies to be ready', function(done) {
-    var Dep = function(timeout) {
+  it('should wait for dependencies to be ready', function (done) {
+    var Dep = function (timeout) {
       this._timeout = timeout
       this.ready = false
     }
-    Dep.prototype.afterPropertiesSet = function(done) {
-      setTimeout(function() {
+    Dep.prototype.afterPropertiesSet = function (done) {
+      setTimeout(function () {
         this.ready = true
         done()
       }.bind(this), this._timeout)
     }
 
-    var Component = function() {
+    var Component = function () {
       this._dep1 = Autowire
       this._dep2 = Autowire
     }
-    Component.prototype.afterPropertiesSet = function() {
+    Component.prototype.afterPropertiesSet = function () {
       expect(this._dep1.ready).to.be.true
       expect(this._dep2.ready).to.be.true
       done()
@@ -406,19 +395,19 @@ describe('Container', function() {
     container.createAndRegister('component', Component)
   })
 
-  it('should error on circular dependencies', function(done) {
+  it('should error on circular dependencies', function (done) {
     var d = false
-    var Dep1 = function() {
+    var Dep1 = function () {
       this._dep2 = Autowire
     }
-    var Dep2 = function() {
+    var Dep2 = function () {
       this._dep1 = Autowire
     }
     var container = new Container()
-    container.on('error', function(error) {
+    container.on('error', function (error) {
       expect(error.message).to.contain('Circular')
 
-      if(!d) {
+      if (!d) {
         d = true
         done()
       }
@@ -428,7 +417,7 @@ describe('Container', function() {
     container.createAndRegister('dep2', Dep2)
   })
 
-  it('should allow overriding timeouts', function() {
+  it('should allow overriding timeouts', function () {
     var container = new Container({
       timeout: 0
     })

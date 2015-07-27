@@ -1,4 +1,3 @@
-
-module.exports = function() {
-	return true
+module.exports = function () {
+  return true
 }

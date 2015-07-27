@@ -1,60 +1,60 @@
-var Dependency = require('../lib/Dependency'),
-  sinon = require('sinon'),
-  expect = require('chai').expect
+var Dependency = require('../lib/Dependency')
+var sinon = require('sinon')
+var expect = require('chai').expect
 
-describe('Dependency', function() {
-  it('should propagate Dependency initialisation errors', function(done) {
+describe('Dependency', function () {
+  it('should propagate Dependency initialisation errors', function (done) {
     var container = {
       _getDependency: sinon.stub(),
       timeout: 5000
     }
 
     var dep = new Dependency('dep', {
-      afterPropertiesSet: function(done) {
+      afterPropertiesSet: function (done) {
         done(new Error('urk!'))
       }
     }, container, [])
-    dep.on('ready', function(error) {
+    dep.on('ready', function (error) {
       expect(error.message).to.contain('urk!')
       done()
     })
   })
 
-  it('should catch exceptions thrown during afterPropertiesSet', function(done) {
+  it('should catch exceptions thrown during afterPropertiesSet', function (done) {
     var container = {
       _getDependency: sinon.stub(),
       timeout: 5000
     }
 
     var dep = new Dependency('dep', {
-      afterPropertiesSet: function() {
+      afterPropertiesSet: function () {
         throw new Error('urk!')
       }
     }, container, [])
-    dep.on('ready', function(error) {
+    dep.on('ready', function (error) {
       expect(error.message).to.contain('urk!')
       done()
     })
   })
 
-  it('should catch exceptions thrown during deferred afterPropertiesSet', function(done) {
+  it('should catch exceptions thrown during deferred afterPropertiesSet', function (done) {
     var container = {
       _getDependency: sinon.stub(),
       timeout: 5000
     }
 
     var dep = new Dependency('dep', {
-      afterPropertiesSet: function(done) {
+      afterPropertiesSet: function (done) {
         throw new Error('urk!')
       }
     }, container, [])
-    dep.on('ready', function(error) {
+    dep.on('ready', function (error) {
       expect(error.message).to.contain('urk!')
       done()
     })
   })
 
-  it('should propagate dependency exceptions', function(done) {
+  it('should propagate dependency exceptions', function (done) {
     var container = {
       _getDependency: sinon.stub(),
       emit: sinon.stub(),
@@ -62,8 +62,8 @@ describe('Dependency', function() {
     }
 
     var dep = new Dependency('dep', {
-      afterPropertiesSet: function(done) {
-        setTimeout(function() {
+      afterPropertiesSet: function (done) {
+        setTimeout(function () {
           done(new Error('urk!'))
         }, 100)
       }
@@ -71,42 +71,40 @@ describe('Dependency', function() {
     container._getDependency.withArgs('dep').returns(dep)
 
     var component = new Dependency('foo', {}, container, ['dep'])
-    component.once('ready', function(error) {
+    component.once('ready', function (error) {
       expect(error.message).to.contain('urk!')
       done()
     })
   })
 
-  it('should time out if dependency doesn\'t initialise', function(done) {
+  it("should time out if dependency doesn't initialise", function (done) {
     var container = {
       _getDependency: sinon.stub(),
       timeout: 10
     }
 
     var dep = new Dependency('dep', {
-      afterPropertiesSet: function(done) {
-
-      }
+      afterPropertiesSet: function (done) {}
     }, container, [])
-    dep.on('ready', function(error) {
-      expect(error.message).to.contain('Component \'dep\' has not initialised after 10ms')
+    dep.on('ready', function (error) {
+      expect(error.message).to.contain("Component 'dep' has not initialised after 10ms")
       done()
     })
   })
 
-  it('should not time out when timeouts are disabled', function(done) {
+  it('should not time out when timeouts are disabled', function (done) {
     var container = {
       _getDependency: sinon.stub(),
       timeout: 0
     }
 
-    var dep = new Dependency('dep', {
-      afterPropertiesSet: function(d) {
+    new Dependency('dep', {
+      afterPropertiesSet: function (d) {
         setTimeout(done, 50)
       }
-    }, container, [])
+    }, container, []).toString()
 
-    container.emit = function() {
+    container.emit = function () {
       done(new Error('oops'))
     }
   })
