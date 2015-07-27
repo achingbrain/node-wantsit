@@ -4,11 +4,11 @@
   "description": "Super lightweight dependency injection",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
-    "test:coverage": "./node_modules/istanbul/lib/cli.js --include-all-sources cover ./node_modules/mocha/bin/_mocha",
-    "test:coverage:verify": "./node_modules/istanbul/lib/cli.js --include-all-sources cover ./node_modules/mocha/bin/_mocha && istanbul check-coverage --statement 100 --branch 100 --function 100",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "lint": "standard"
+    "lint": "standard",
+    "test": "mocha --recursive --reporter=nyan",
+    "test:coverage": "istanbul --include-all-sources cover _mocha --recursive",
+    "test:coverage:check": "istanbul --include-all-sources cover _mocha --recursive && istanbul check-coverage --statement 100 --branch 100 --function 100",
+    "coveralls": "npm run test:coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
   },
   "pre-commit": [
     "lint",
-    "test:coverage:verify"
+    "test:coverage:check"
   ],
   "standard": {
     "global": [
