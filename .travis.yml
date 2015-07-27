@@ -5,3 +5,4 @@ node_js:
   - "iojs"
 script: "npm run test:coverage:check"
 after_script: npm run coveralls
+sudo: false
