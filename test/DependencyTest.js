@@ -1,6 +1,8 @@
 var Dependency = require('../lib/Dependency')
 var sinon = require('sinon')
 var expect = require('chai').expect
+var it = require('mocha').it
+var describe = require('mocha').describe
 
 describe('Dependency', function () {
   it('should propagate Dependency initialisation errors', function (done) {
@@ -107,5 +109,27 @@ describe('Dependency', function () {
     container.emit = function () {
       done(new Error('oops'))
     }
+  })
+
+  it('should not register for ready even on dependencies that are already ready', function (done) {
+    var container = {
+      _getDependency: sinon.stub(),
+      timeout: 0
+    }
+    var depDep = {
+      ready: true,
+      on: sinon.stub()
+    }
+
+    var dep = new Dependency('dep', {
+      afterPropertiesSet: function (d) {
+        setTimeout(done, 50)
+      }
+    }, container, [depDep])
+
+    dep.on('ready', function () {
+      expect(depDep.on.called).to.be.false
+      done()
+    })
   })
 })

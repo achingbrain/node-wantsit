@@ -3,4 +3,5 @@ node_js:
   - "0.10"
   - "0.12"
   - "io.js"
+script: npm run test:coverage:verify
 after_script: npm run coveralls
