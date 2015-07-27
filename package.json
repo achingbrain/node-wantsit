@@ -6,6 +6,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
     "test:coverage": "./node_modules/istanbul/lib/cli.js --include-all-sources cover ./node_modules/mocha/bin/_mocha",
+    "test:coverage:verify": "./node_modules/istanbul/lib/cli.js --include-all-sources cover ./node_modules/mocha/bin/_mocha && istanbul check-coverage --statement 100 --branch 100 --function 100",
     "coveralls": "istanbul cover _mocha test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "standard"
   },
@@ -32,7 +33,7 @@
   },
   "pre-commit": [
     "lint",
-    "test"
+    "test:coverage"
   ],
   "standard": {
     "global": [ "describe", "it", "expect" ]

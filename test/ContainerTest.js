@@ -424,4 +424,16 @@ describe('Container', function () {
 
     expect(container.timeout).to.equal(0)
   })
+
+  it('should emit an error when a non-optional dependency is requested', function (done) {
+    var container = new Container({
+      timeout: 0
+    })
+    container.on('error', function (error) {
+      expect(error.message).to.equal('No component with name foo has been registered')
+      done()
+    })
+
+    container._getDependency('foo', false)
+  })
 })
