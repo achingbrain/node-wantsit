@@ -436,4 +436,25 @@ describe('Container', function () {
 
     container._getDependency('foo', false)
   })
+
+  it('should autowire by name more than once', function () {
+    var container = new Container()
+    container.register('foo', function () {
+      return 'foo'
+    })
+    container.register('bar', function () {
+      return 'bar'
+    })
+
+    var Baz = function () {
+      this.foo = Autowire({name: 'foo'})
+      this.bar = Autowire({name: 'bar'})
+    }
+
+    var baz = new Baz()
+    container.autowire(baz)
+
+    expect(baz.foo()).to.equal('foo')
+    expect(baz.bar()).to.equal('bar')
+  })
 })
