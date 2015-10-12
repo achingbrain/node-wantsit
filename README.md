@@ -80,7 +80,9 @@ container.register('bar', new Bar())
 var foo = new Foo()
 container.autowire(foo)
 
-foo.doSomething() // prints 'hello!'
+container.once('ready', function() {
+  foo.doSomething() // prints 'hello!'
+})
 ```
 
 ## Lifecycle management
@@ -139,7 +141,7 @@ Foo.prototype.afterPropertiesSet = function(done) {
 ...
 
 container.create(Foo, function(error, foo) {
-  // will not be invoked until foo._dep (above) has returned 
+  // will not be invoked until foo._dep (above) has returned
 })
 ```
 
@@ -156,7 +158,7 @@ Bar = function() {
   this._foo = Autowire
 }
 Bar.prototype.afterPropertiesSet = function() {
-  // will not be invoked until the callback passed to 
+  // will not be invoked until the callback passed to
   // foo.afterPropertiesSet has been called
 }
 
@@ -200,14 +202,19 @@ Foo.prototype.doSomething = function() {
 // create and autowire it
 var foo = container.create(Foo)
 
-foo.doSomething() // prints 'hello!'
+container.once('ready', function() {
+  foo.doSomething() // prints 'hello!'
 
-// overwrite bar
-container.register('bar', function() {
-  console.log('world')
+  // overwrite bar
+  container.register('bar', function() {
+    console.log('world')
+  })
+
+  container.once('ready', function() {
+    foo.doSomething() // prints 'world!'
+  })
 })
 
-foo.doSomething() // prints 'world!'
 ```
 
 All autowired properties are converted to non-enumerable fields so we can `JSON.stringify` without serialising the entire object graph.
@@ -418,7 +425,7 @@ var container = new Container({
     error: function(message) {},
     debug: function(message) {}
   },
-  
+
   // how long to wait for deferred `afterPropertiesSet` methods to invoke the callback
   timeout: 5000
 })
